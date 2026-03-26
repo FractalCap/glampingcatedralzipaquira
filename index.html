@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth snap-y snap-mandatory scroll-pt-20">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tu refugio exclusivo en Zipaquirá. Disfruta de un alojamiento en medio de la naturaleza con vistas a la montaña, bañera de hidromasaje, restaurante, bar y wifi gratis.">
+    <title>Glamping Reservas de Catedral</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
+    
+    <style>
+        /* Fuentes Corporativas */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+        
+        body { font-family: 'Poppins', sans-serif; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        /* Imagen del Hero */
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.postimg.cc/VvbWdgXw/Captura-de-pantalla-2026-03-25-165425.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Ajustes Calendario */
+        .flatpickr-calendar.inline {
+            width: 100%;
+            box-shadow: none;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 10px;
+        }
+        .flatpickr-day.selected {
+            background: #4A6B46 !important;
+            border-color: #4A6B46 !important;
+        }
+        
+        /* Animación Wizard Paso a Paso */
+        .wizard-step {
+            display: none;
+            animation: fadeInRight 0.4s ease forwards;
+        }
+        .wizard-step.active {
+            display: block;
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Opciones interactivas */
+        .option-card { transition: all 0.2s; cursor: pointer; }
+        .option-card:hover { border-color: #4A6B46; background-color: #f6f8f6; transform: translateY(-2px); }
+    
+
+        /* Ajustes estrictamente responsivos para mobile */
+        html, body {
+            overflow-x: hidden;
+        }
+        .container {
+            width: 100%;
+        }
+        @media (max-width: 1023px) {
+            html {
+                scroll-snap-type: none;
+            }
+            .snap-start {
+                scroll-snap-align: none;
+            }
+        }
+        @media (max-width: 767px) {
+            body {
+                padding-top: 5rem;
+            }
+            .hero-section {
+                background-position: center center;
+            }
+            .flatpickr-calendar.inline {
+                padding: 8px;
+            }
+            .flatpickr-months .flatpickr-month,
+            .flatpickr-current-month {
+                font-size: 14px;
+            }
+            .flatpickr-days,
+            .dayContainer {
+                width: 100% !important;
+                min-width: 100% !important;
+                max-width: 100% !important;
+            }
+            .flatpickr-day {
+                max-width: calc(100% / 7);
+                height: 38px;
+                line-height: 38px;
+            }
+            #reservas .wizard-step {
+                min-width: 0;
+            }
+            #reservas .option-card {
+                min-width: 0;
+            }
+            #step-3 .option-card,
+            #step-4 .bg-stone-50 > div {
+                gap: 0.75rem;
+            }
+            #step-3 .option-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            #step-3 .option-card > div:last-child {
+                width: 100%;
+                text-align: left;
+            }
+            #step-4 .bg-stone-50 .flex.justify-between,
+            #step-4 .bg-stone-50 .flex.justify-between.items-center {
+                gap: 0.75rem;
+            }
+            #step-4 .bg-stone-50 .flex.justify-between span:last-child,
+            #step-4 .bg-stone-50 .flex.justify-between.items-center span:last-child {
+                text-align: right;
+                max-width: 55%;
+                overflow-wrap: anywhere;
+            }
+        }
+
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 pt-20">
+
+    <header class="fixed top-0 w-full z-50 bg-white shadow-sm border-b border-stone-100 h-20">
+        <nav class="container mx-auto px-6 h-full flex justify-between items-center">
+            
+            <div class="flex-1 flex items-center justify-start gap-3">
+                <img src="https://i.postimg.cc/nh1CmyfQ/Captura-de-pantalla-2026-03-23-085932.jpg" alt="Logo Reservas de Catedral" class="h-10 md:h-12 w-auto object-contain">
+                <div class="text-[17px] md:text-[21px] font-black tracking-tight text-[#4A4A4A] font-montserrat uppercase hidden sm:block mt-1">
+                    RESERVAS DE <span class="text-[#2F5833]">CATEDRAL</span>
+                </div>
+            </div>
+            
+            <div class="hidden lg:flex flex-1 justify-center space-x-6 xl:space-x-8 font-montserrat text-[12px] xl:text-[13px] font-bold uppercase tracking-[0.1em] text-[#4A4A4A]">
+                <a href="#inicio" class="hover:text-[#2F5833] transition duration-300">Inicio</a>
+                <a href="#servicios" class="hover:text-[#2F5833] transition duration-300">Servicios</a>
+                <a href="#planes" class="hover:text-[#2F5833] transition duration-300">Planes</a>
+                <a href="#ubicacion" class="hover:text-[#2F5833] transition duration-300">Ubicación</a>
+            </div>
+            
+            <div class="flex-1 flex justify-end items-center gap-3">
+                <a href="#reservas" class="hidden sm:inline-flex bg-[#536B4D] hover:bg-[#3F523A] text-white px-5 xl:px-6 py-2.5 rounded-full text-[11px] xl:text-[12px] font-bold uppercase tracking-widest transition shadow-md hover:shadow-lg font-montserrat whitespace-nowrap">
+                    RESERVAR AHORA
+                </a>
+                <button id="mobile-menu-button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full border border-stone-200 text-stone-700" aria-label="Abrir menú" aria-expanded="false">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            
+        </nav>
+
+        <div id="mobile-menu" class="lg:hidden hidden border-t border-stone-100 bg-white px-6 py-4 shadow-sm">
+            <div class="flex flex-col gap-3 font-montserrat text-[12px] font-bold uppercase tracking-[0.1em] text-[#4A4A4A]">
+                <a href="#inicio" class="mobile-nav-link hover:text-[#2F5833] transition duration-300">Inicio</a>
+                <a href="#servicios" class="mobile-nav-link hover:text-[#2F5833] transition duration-300">Servicios</a>
+                <a href="#planes" class="mobile-nav-link hover:text-[#2F5833] transition duration-300">Planes</a>
+                <a href="#ubicacion" class="mobile-nav-link hover:text-[#2F5833] transition duration-300">Ubicación</a>
+                <a href="#reservas" class="mobile-nav-link bg-[#536B4D] text-white px-4 py-3 rounded-xl text-center">Reservar ahora</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="inicio" class="hero-section flex flex-col items-center justify-center text-center text-white px-4 snap-start min-h-[calc(100vh-5rem)] py-12 sm:py-16">
+        <div class="max-w-4xl mt-12 md:mt-0">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl mb-6 drop-shadow-lg leading-tight">Glamping Reservas de Catedral</h1>
+            
+            <p class="text-base sm:text-lg md:text-xl mb-10 font-light drop-shadow-md max-w-3xl mx-auto leading-relaxed">
+                Tu refugio exclusivo en Zipaquirá. Disfruta de un alojamiento en medio de la naturaleza con vistas a la montaña, bañera de hidromasaje, restaurante, bar y wifi gratis. Despierta cada mañana con un delicioso desayuno americano.
+            </p>
+            
+            <div class="flex flex-col items-center gap-5">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-lg mx-auto">
+                    <a href="#reservas" class="w-full sm:w-auto bg-white text-stone-900 px-8 py-3.5 rounded-lg font-bold tracking-wide hover:bg-stone-100 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+                        Agendar Reserva
+                    </a>
+                    <a href="#planes" class="w-full sm:w-auto bg-transparent border border-white/80 text-white px-8 py-3.5 rounded-lg font-bold tracking-wide hover:bg-white/10 hover:border-white hover:shadow-xl hover:-translate-y-0.5 backdrop-blur-sm transition-all duration-300">
+                        Ver Planes
+                    </a>
+                </div>
+                
+                <a href="#booking-info" class="group flex items-center justify-center gap-3 bg-[#003B95] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#00224F] hover:shadow-[0_8px_20px_rgba(0,59,149,0.3)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto min-w-[280px]">
+                    <span class="text-lg tracking-wide">Booking.com</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="flex flex-col justify-center snap-start min-h-[calc(100vh-5rem)] py-10 lg:py-0 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-[#2F5833] font-bold uppercase tracking-widest text-sm">Bienvenidos</span>
+                    <h2 class="text-4xl mt-2 mb-6 text-stone-700">Tu refugio ideal muy cerca a la Catedral</h2>
+                    <p class="text-stone-600 leading-relaxed mb-6">
+                        Ofrecemos un alojamiento exclusivo equipado con jardín, salón de uso común, restaurante y bar. Relájate en nuestras confortables unidades, diseñadas con terrazas o balcones que te brindan vistas espectaculares a la ciudad o la montaña. Comienza tu día con un delicioso desayuno americano y disfruta de una inmersión de relajación total en nuestra bañera de hidromasaje.
+                    </p>
+                    
+                    <h3 class="text-lg font-bold text-stone-800 mb-4 font-montserrat uppercase tracking-wide">Servicios más populares</h3>
+                    <div class="grid grid-cols-2 gap-4 text-sm font-semibold">
+                        <div class="flex items-center gap-3"><div class="bg-stone-100 p-2 rounded-full"><i class="fas fa-wifi text-[#2F5833] w-4 text-center"></i></div> WiFi gratis</div>
+                        <div class="flex items-center gap-3"><div class="bg-stone-100 p-2 rounded-full"><i class="fas fa-parking text-[#2F5833] w-4 text-center"></i></div> Parking gratis</div>
+                        <div class="flex items-center gap-3"><div class="bg-stone-100 p-2 rounded-full"><i class="fas fa-utensils text-[#2F5833] w-4 text-center"></i></div> Restaurante</div>
+                        <div class="flex items-center gap-3"><div class="bg-stone-100 p-2 rounded-full"><i class="fas fa-wine-glass-alt text-[#2F5833] w-4 text-center"></i></div> Bar</div>
+                        <div class="flex items-center gap-3"><div class="bg-stone-100 p-2 rounded-full"><i class="fas fa-coffee text-[#2F5833] w-4 text-center"></i></div> Desayuno</div>
+                        <div class="flex items-center gap-3"><div class="bg-stone-100 p-2 rounded-full"><i class="fas fa-hot-tub text-[#2F5833] w-4 text-center"></i></div> Hidromasaje</div>
+                        <div class="flex items-center gap-3"><div class="bg-stone-100 p-2 rounded-full"><i class="fas fa-concierge-bell text-[#2F5833] w-4 text-center"></i></div> Servicio a habitación</div>
+                        <div class="flex items-center gap-3"><div class="bg-stone-100 p-2 rounded-full"><i class="fas fa-smoking-ban text-[#2F5833] w-4 text-center"></i></div> Zonas sin humo</div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://i.postimg.cc/1Xkhqv21/videoframe-2251.png" alt="Glamping Reserva Catedral" class="rounded-2xl shadow-2xl w-full object-cover h-[280px] sm:h-[380px] lg:h-[500px]">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planes" class="bg-stone-100 flex flex-col justify-center snap-start min-h-[calc(100vh-5rem)] py-10 lg:py-0">
+        <div class="container mx-auto px-4 lg:px-6 text-center mb-8 lg:mb-12">
+            <h2 class="text-3xl lg:text-4xl text-stone-700 mb-3">Conoce Nuestros Planes</h2>
+            <div class="w-16 h-1 bg-[#2F5833] mx-auto mb-4"></div>
+            <p class="text-stone-500 max-w-2xl mx-auto text-sm lg:text-base">Selecciona el plan que mejor se adapte a tu escapada perfecta.</p>
+        </div>
+        
+        <div class="container mx-auto px-4 lg:px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1400px]">
+            
+            <div class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col group">
+                <div class="h-48 lg:h-44 overflow-hidden relative">
+                    <img src="https://i.postimg.cc/rFM7vtTQ/3333.jpg" alt="Pasadía" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute bottom-0 left-0 bg-[#2F5833] text-white px-3 py-1 text-[13px] font-bold">$330.000</div>
+                </div>
+                <div class="p-4 lg:p-5 flex-grow flex flex-col">
+                    <h3 class="text-xl lg:text-2xl mb-3 font-bold text-stone-800">Pasadía</h3>
+                    <ul class="text-[13px] text-stone-600 space-y-1.5 mb-4">
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Cama doble, Baño, TV, Wifi</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Malla catamarán</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Jacuzzi en zona de spa</li>
+                        <li><i class="fas fa-utensils text-amber-500 mr-2 w-4"></i> <strong>Almuerzo para 2</strong></li>
+                    </ul>
+                    <div class="bg-amber-50/80 border border-amber-200/80 rounded-lg p-2.5 mt-auto">
+                        <div class="flex justify-between items-center gap-2">
+                            <p class="text-[11.5px] text-amber-800 leading-snug">
+                                <span class="font-bold">✨ Ideal de día:</span> Incluye almuerzo para 2.
+                            </p>
+                            <div class="flex text-amber-500 text-[10px] shrink-0">
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-stone-50 p-3 border-t border-stone-100 text-[11px] lg:text-xs text-stone-500 text-center leading-relaxed">
+                    Check-in: 8:00 AM<br>Check-out: 5:00 PM (Mismo día)
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col group">
+                <div class="h-48 lg:h-44 overflow-hidden relative">
+                    <img src="https://i.postimg.cc/fbRzZrhS/795768315.jpg" alt="Plan Pareja" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute bottom-0 left-0 bg-[#2F5833] text-white px-3 py-1 text-[13px] font-bold">$360.000</div>
+                </div>
+                <div class="p-4 lg:p-5 flex-grow flex flex-col">
+                    <h3 class="text-xl lg:text-2xl mb-3 font-bold text-stone-800">Plan Pareja</h3>
+                    <ul class="text-[13px] text-stone-600 space-y-1.5 mb-4">
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Cama doble, Baño, TV, Wifi</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Malla catamarán</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Jacuzzi en zona de spa</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Fogata</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Cóctel de bienvenida</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Desayuno Americano</li>
+                    </ul>
+                    <div class="bg-amber-50/80 border border-amber-200/80 rounded-lg p-2.5 mt-auto">
+                        <div class="flex justify-between items-center gap-2">
+                            <p class="text-[11.5px] text-amber-800 leading-snug">
+                                <span class="font-bold">✨ Plus:</span> Incluye Noche, Fogata y Cóctel.
+                            </p>
+                            <div class="flex text-amber-500 text-[10px] shrink-0">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-stone-50 p-3 border-t border-stone-100 text-[11px] lg:text-xs text-stone-500 text-center leading-relaxed">
+                    Check-in: 2:00 PM a 6:00 PM<br>Check-out: 12:00 PM
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col group relative">
+                <div class="absolute top-3 right-3 bg-amber-500 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10 shadow-lg uppercase tracking-wide">Más Vendido</div>
+                <div class="h-48 lg:h-44 overflow-hidden relative">
+                    <img src="https://i.postimg.cc/3RDHxMfD/22.jpg" alt="Plan Deluxe" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute bottom-0 left-0 bg-[#2F5833] text-white px-3 py-1 text-[13px] font-bold">$470.000</div>
+                </div>
+                <div class="p-4 lg:p-5 flex-grow flex flex-col">
+                    <h3 class="text-xl lg:text-2xl mb-3 font-bold text-stone-800">Plan Deluxe</h3>
+                    <ul class="text-[13px] text-stone-600 space-y-1.5 mb-4">
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Cama doble, Baño, TV, Wifi</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Malla catamarán</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Jacuzzi en zona de spa</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Fogata</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Cóctel de bienvenida</li>
+                        <li><i class="fas fa-star text-amber-500 mr-2 w-4"></i> <strong>Cena para 2</strong></li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Desayuno Americano</li>
+                    </ul>
+                    <div class="bg-amber-50/80 border border-amber-200/80 rounded-lg p-2.5 mt-auto">
+                        <div class="flex justify-between items-center gap-2">
+                            <p class="text-[11.5px] text-amber-800 leading-snug">
+                                <span class="font-bold">✨ Plus:</span> Añade una espectacular Cena.
+                            </p>
+                            <div class="flex text-amber-500 text-[10px] shrink-0">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-stone-50 p-3 border-t border-stone-100 text-[11px] lg:text-xs text-stone-500 text-center leading-relaxed">
+                    Check-in: 2:00 PM a 6:00 PM<br>Check-out: 12:00 PM
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col group">
+                <div class="h-48 lg:h-44 overflow-hidden relative">
+                    <img src="https://i.postimg.cc/nhR8KV6h/spa2.jpg" alt="Plan Luxury" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute bottom-0 left-0 bg-[#2F5833] text-white px-3 py-1 text-[13px] font-bold">$570.000</div>
+                </div>
+                <div class="p-4 lg:p-5 flex-grow flex flex-col">
+                    <h3 class="text-xl lg:text-2xl mb-3 font-bold text-stone-800">Plan Luxury</h3>
+                    <ul class="text-[13px] text-stone-600 space-y-1.5 mb-4">
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Cama doble, Baño, TV, Wifi</li>
+                        <li><i class="fas fa-star text-amber-500 mr-2 w-4"></i> <strong>Sala y comedor</strong></li>
+                        <li><i class="fas fa-star text-amber-500 mr-2 w-4"></i> <strong>Jacuzzi privado</strong></li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Fogata</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Cóctel de bienvenida</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Cena para 2</li>
+                        <li><i class="fas fa-check text-[#2F5833] mr-2 w-4"></i> Desayuno Americano</li>
+                    </ul>
+                    <div class="bg-amber-50/80 border border-amber-200/80 rounded-lg p-2.5 mt-auto">
+                        <div class="flex justify-between items-center gap-2">
+                            <p class="text-[11.5px] text-amber-800 leading-snug">
+                                <span class="font-bold">✨ Premium:</span> Privacidad total y exclusividad.
+                            </p>
+                            <div class="flex text-amber-500 text-[10px] shrink-0">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-stone-50 p-3 border-t border-stone-100 text-[11px] lg:text-xs text-stone-500 text-center leading-relaxed">
+                    Check-in: 2:00 PM a 6:00 PM<br>Check-out: 12:00 PM
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="ubicacion" class="bg-white flex flex-col justify-center snap-start min-h-[calc(100vh-5rem)] py-10 lg:py-0">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl text-stone-800 mb-4">¿Cómo llegar?</h2>
+                <div class="w-20 h-1 bg-[#2F5833] mx-auto mb-6"></div>
+                <p class="text-stone-500 max-w-2xl mx-auto">Estamos ubicados en una zona privilegiada, rodeados de naturaleza y a pocos minutos de la Catedral de Sal de Zipaquirá.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8 items-center bg-stone-50 rounded-2xl overflow-hidden shadow-sm border border-stone-100">
+                <div class="p-8 lg:p-10 lg:col-span-1">
+                    <h3 class="text-2xl font-bold text-stone-800 mb-6">Nuestra Ubicación</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-white p-3 rounded-full shadow-sm text-[#2F5833]"><i class="fas fa-map-marker-alt text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">Dirección</h4>
+                                <p class="text-stone-600 text-sm mt-1">Glamping Reserva Catedral<br>Vereda San Jorge, Zipaquirá, Cundinamarca</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="bg-white p-3 rounded-full shadow-sm text-[#2F5833]"><i class="fas fa-car text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">Parqueadero</h4>
+                                <p class="text-stone-600 text-sm mt-1">Contamos con parqueadero privado y seguro para todos nuestros huéspedes.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com/?q=Glamping+Reserva+Catedral+Zipaquira" target="_blank" class="mt-8 inline-flex items-center justify-center w-full gap-2 bg-stone-800 hover:bg-stone-900 text-white px-6 py-3 rounded-xl font-bold transition">
+                        Abrir en Google Maps <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                
+                <div class="lg:col-span-2 h-[300px] sm:h-[400px] w-full">
+                    <iframe 
+                        src="https://maps.google.com/maps?q=Glamping%20Reserva%20Catedral%20Zipaquira&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking-info" class="bg-stone-50 border-y border-stone-200 flex flex-col justify-center snap-start min-h-[calc(100vh-5rem)] py-10 lg:py-0">
+        <div class="container mx-auto px-4 lg:px-6 max-w-5xl">
+            <div class="bg-white rounded-[1.5rem] shadow-xl border border-stone-200 overflow-hidden flex flex-col">
+                
+                <div class="bg-[#003B95] text-white p-5 sm:p-6 md:px-10 md:py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div class="md:w-3/4">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-2 font-playfair leading-tight">Respalda tu reserva con Booking.com</h2>
+                        <p class="text-white/90 text-sm leading-relaxed max-w-2xl">
+                            Si prefieres la seguridad, confianza y flexibilidad de la plataforma de viajes líder mundial, reserva fácilmente. Descubre por qué cientos de huéspedes nos eligen.
+                        </p>
+                    </div>
+                    <div class="md:w-1/4 flex flex-col items-center md:items-end shrink-0">
+                        <img src="https://i.postimg.cc/nVXvnnKm/unnamed.png" alt="Booking.com Logo" class="w-32 md:w-40 mb-1 object-contain">
+                    </div>
+                </div>
+
+                <div class="bg-white px-4 py-4 md:px-10 md:py-6 border-b border-stone-100">
+                    <div class="max-w-md mx-auto lg:mx-0 bg-[#e9edf3] rounded-md p-4 sm:p-5 md:p-6 text-stone-900 md:hidden">
+                        <h3 class="text-[1.4rem] sm:text-[1.55rem] font-bold leading-tight mb-5 md:hidden">Puntos fuertes del alojamiento</h3>
+
+                        <div class="mb-5">
+                            <h4 class="text-lg sm:text-xl font-bold leading-tight mb-2">Información sobre el desayuno</h4>
+                            <p class="text-base sm:text-lg leading-relaxed">Americano</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="text-lg sm:text-xl font-bold leading-tight mb-3">Bungalows con:</h4>
+                            <ul class="space-y-2.5 text-[15px] sm:text-base leading-relaxed">
+                                <li class="flex items-start gap-3"><i class="far fa-building text-stone-800 text-base mt-1 w-4 text-center"></i><span>Vistas a un lugar de interés</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-mountain text-stone-800 text-base mt-1 w-4 text-center"></i><span>Vistas a la montaña</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-road text-stone-800 text-base mt-1 w-4 text-center"></i><span>Vistas a una calle tranquila</span></li>
+                                <li class="flex items-start gap-3"><i class="far fa-tree text-stone-800 text-base mt-1 w-4 text-center"></i><span>Vistas al jardín</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-umbrella-beach text-stone-800 text-base mt-1 w-4 text-center"></i><span>Terraza</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-city text-stone-800 text-base mt-1 w-4 text-center"></i><span>Vistas a la ciudad</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="flex items-start gap-3 mb-6 text-[15px] sm:text-base leading-relaxed">
+                            <i class="far fa-parking text-stone-800 text-lg mt-0.5 w-5 text-center"></i>
+                            <p>¡Parking privado GRATIS!</p>
+                        </div>
+
+                        <a href="https://www.booking.com/hotel/co/glamping-reserva-catedral-zipaquira.es.html" target="_blank" class="block w-full md:w-auto md:inline-block text-center bg-[#0071c2] hover:bg-[#005999] text-white font-bold py-3 md:py-2.5 px-4 md:px-6 rounded-md text-base transition">Reserva ahora</a>
+                    </div>
+                </div>
+
+                <div class="px-4 pb-6 md:px-10 md:pb-8 bg-white pt-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-stone-800 font-playfair">Lo que dicen nuestros huéspedes</h3>
+                        <a href="https://www.google.com/maps/place/Reserva+catedral+Glamping/@5.0137023,-74.0084402,19z/data=!4m11!3m10!1s0x8e40717d536adc59:0x71b6995712b8004!5m2!4m1!1i2!8m2!3d5.0137645!4d-74.0085004!9m1!1b1!16s%2Fg%2F11p153r73p?hl=es-419&entry=ttu&g_ep=EgoyMDI2MDMyNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="hidden sm:inline-flex text-[#0071c2] font-bold text-xs hover:underline items-center gap-1">
+                            Ver todas las reseñas <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        
+                        <div class="bg-stone-50 rounded-xl p-4 border border-stone-200/60 flex flex-col h-full relative">
+                            <div class="absolute top-4 right-4 bg-[#003B95] text-white font-bold text-[11px] px-1.5 py-0.5 rounded-t-md rounded-bl-md rounded-br-none shadow-sm">10</div>
+                            <h4 class="font-bold text-stone-800 text-sm mb-2 leading-tight pr-8">"Acogedor"</h4>
+                            <p class="text-[11px] text-stone-600 mb-4 flex-grow italic leading-snug">"El lugar es muy acogedor, las habitaciones muy cómodas y espaciosas. El sitio es muy lindo y amplio y el servicio de todo el equipo incluyendo a doña esperanza y don Pedro fue muy bueno."</p>
+                            <div class="flex items-center gap-2 mt-auto border-t border-stone-200/80 pt-2">
+                                <div class="w-6 h-6 bg-stone-300 rounded-full flex items-center justify-center text-stone-600 font-bold text-[10px]">L</div>
+                                <div class="text-[10px] leading-tight">
+                                    <p class="font-bold text-stone-800">Jonathan C.</p>
+                                    <p class="text-stone-500">🇨🇴 Colombia <span class="text-stone-400 font-normal ml-0.5">• 12 de nov de 2024</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-stone-50 rounded-xl p-4 border border-stone-200/60 flex flex-col h-full relative">
+                            <div class="absolute top-4 right-4 bg-[#003B95] text-white font-bold text-[11px] px-1.5 py-0.5 rounded-t-md rounded-bl-md rounded-br-none shadow-sm">10</div>
+                            <h4 class="font-bold text-stone-800 text-sm mb-2 leading-tight pr-8">"Buen plan"</h4>
+                            <p class="text-[11px] text-stone-600 mb-4 flex-grow italic leading-snug">Buen plan para compartir con tu pareja ,excelente servicio ,buena comida ,todo muy limpio sin duda volvería otra vez ."</p>
+                            <div class="flex items-center gap-2 mt-auto border-t border-stone-200/80 pt-2">
+                                <div class="w-6 h-6 bg-stone-300 rounded-full flex items-center justify-center text-stone-600 font-bold text-[10px]">M</div>
+                                <div class="text-[10px] leading-tight">
+                                    <p class="font-bold text-stone-800">Deisy A.</p>
+                                    <p class="text-stone-500">🇨🇴 Colombia</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 rounded-xl p-4 border border-stone-200/60 flex flex-col h-full relative">
+                            <div class="absolute top-4 right-4 bg-[#003B95] text-white font-bold text-[11px] px-1.5 py-0.5 rounded-t-md rounded-bl-md rounded-br-none shadow-sm">10</div>
+                            <h4 class="font-bold text-stone-800 text-sm mb-2 leading-tight pr-8">"Perfectamente ubicado"</h4>
+                            <p class="text-[11px] text-stone-600 mb-4 flex-grow italic leading-snug">"El sitio está perfectamente ubicado, a 3 minutos en vehículo de la Catedral a pesar de que está en zona rural de muy fácil acceso. El personal es espectacular, una atención inigualable, especialmente Don Pedro."</p>
+                            <div class="flex items-center gap-2 mt-auto border-t border-stone-200/80 pt-2">
+                                <div class="w-6 h-6 bg-stone-300 rounded-full flex items-center justify-center text-stone-600 font-bold text-[10px]">A</div>
+                                <div class="text-[10px] leading-tight">
+                                    <p class="font-bold text-stone-800">Andres F.</p>
+                                    <p class="text-stone-500">🇨🇴 Colombia</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 rounded-xl p-4 border border-stone-200/60 flex flex-col h-full relative">
+                            <div class="absolute top-4 right-4 bg-[#003B95] text-white font-bold text-[11px] px-1.5 py-0.5 rounded-t-md rounded-bl-md rounded-br-none shadow-sm">10</div>
+                            <h4 class="font-bold text-stone-800 text-sm mb-2 leading-tight pr-8">"Lugar Magico"</h4>
+                            <p class="text-[11px] text-stone-600 mb-4 flex-grow italic leading-snug">"Es un lugar Mágico!!! Desde que reservas la atención es increíble, vale la pena conocerlo y volvería mil veces. Para ir con amigos, familia, pareja, con quien quieras…"</p>
+                            <div class="flex items-center gap-2 mt-auto border-t border-stone-200/80 pt-2">
+                                <div class="w-6 h-6 bg-stone-300 rounded-full flex items-center justify-center text-stone-600 font-bold text-[10px]">E</div>
+                                <div class="text-[10px] leading-tight">
+                                    <p class="font-bold text-stone-800">Paola R.</p>
+                                    <p class="text-stone-500">🇨🇴 Colombia</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="reservas" class="bg-white flex flex-col justify-center snap-start min-h-[calc(100vh-5rem)] py-10 lg:py-0">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl text-stone-800 mb-4">Agenda tu Experiencia Directamente</h2>
+                <p class="text-stone-500 text-lg">Sigue estos 4 sencillos pasos para asegurar tu reserva por WhatsApp.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-stone-100 p-4 sm:p-6 md:p-10 relative overflow-hidden min-h-[450px]">
+                
+                <div class="flex justify-between items-start sm:items-center gap-2 mb-8 pb-4 border-b border-stone-200">
+                    <div class="text-center w-1/4" id="ind-1"><div class="text-[#2F5833] font-bold mb-1"><i class="far fa-calendar-alt text-xl"></i></div><div class="text-[10px] md:text-xs uppercase tracking-wide font-semibold text-[#2F5833]">Día</div></div>
+                    <div class="text-center w-1/4 opacity-40" id="ind-2"><div class="text-stone-500 mb-1"><i class="far fa-clock text-xl"></i></div><div class="text-[10px] md:text-xs uppercase tracking-wide font-semibold text-stone-500">Hora</div></div>
+                    <div class="text-center w-1/4 opacity-40" id="ind-3"><div class="text-stone-500 mb-1"><i class="fas fa-home text-xl"></i></div><div class="text-[10px] md:text-xs uppercase tracking-wide font-semibold text-stone-500">Plan</div></div>
+                    <div class="text-center w-1/4 opacity-40" id="ind-4"><div class="text-stone-500 mb-1"><i class="fas fa-check-circle text-xl"></i></div><div class="text-[10px] md:text-xs uppercase tracking-wide font-semibold text-stone-500">Pago</div></div>
+                </div>
+
+                <div id="step-1" class="wizard-step active">
+                    <h3 class="text-2xl font-semibold text-stone-700 mb-6 text-center">¿Qué día nos visitas?</h3>
+                    <input type="text" id="calendar-input" class="hidden">
+                </div>
+
+                <div id="step-2" class="wizard-step">
+                    <button onclick="goToStep(1)" class="text-stone-500 text-sm hover:text-[#2F5833] mb-4 flex items-center gap-2"><i class="fas fa-arrow-left"></i> Volver al calendario</button>
+                    <h3 class="text-2xl font-semibold text-stone-700 mb-2 text-center">¿A qué hora llegas?</h3>
+                    <p class="text-center text-stone-500 text-sm mb-6">Nuestro horario de atención para reservas es de 7:00 AM a 7:00 PM.</p>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        <div onclick="selectTime('07:00 AM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">07:00 AM</div>
+                        <div onclick="selectTime('08:00 AM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">08:00 AM</div>
+                        <div onclick="selectTime('09:00 AM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">09:00 AM</div>
+                        <div onclick="selectTime('10:00 AM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">10:00 AM</div>
+                        
+                        <div onclick="selectTime('11:00 AM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">11:00 AM</div>
+                        <div onclick="selectTime('12:00 PM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">12:00 PM</div>
+                        <div onclick="selectTime('01:00 PM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">01:00 PM</div>
+                        <div onclick="selectTime('02:00 PM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">02:00 PM</div>
+                        
+                        <div onclick="selectTime('03:00 PM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">03:00 PM</div>
+                        <div onclick="selectTime('04:00 PM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">04:00 PM</div>
+                        <div onclick="selectTime('05:00 PM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">05:00 PM</div>
+                        <div onclick="selectTime('06:00 PM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md">06:00 PM</div>
+                        
+                        <div onclick="selectTime('07:00 PM')" class="option-card border border-stone-300 rounded-xl p-3 text-center text-sm text-stone-700 font-semibold shadow-sm hover:shadow-md md:col-start-2">07:00 PM</div>
+                    </div>
+                </div>
+
+                <div id="step-3" class="wizard-step">
+                    <button onclick="goToStep(2)" class="text-stone-500 text-sm hover:text-[#2F5833] mb-4 flex items-center gap-2"><i class="fas fa-arrow-left"></i> Volver a horas</button>
+                    <h3 class="text-2xl font-semibold text-stone-700 mb-6 text-center">Selecciona tu Plan</h3>
+                    
+                    <div class="space-y-4">
+                        <div onclick="selectPlan('Pasadía', 330000)" class="option-card border border-stone-200 rounded-xl p-4 flex justify-between items-center shadow-sm">
+                            <div><h4 class="font-bold text-stone-800">Pasadía</h4><p class="text-xs text-stone-500">Pasadía + Almuerzo</p></div>
+                            <div class="font-bold text-[#2F5833]">$330.000</div>
+                        </div>
+                        <div onclick="selectPlan('Plan Pareja', 360000)" class="option-card border border-stone-200 rounded-xl p-4 flex justify-between items-center shadow-sm">
+                            <div><h4 class="font-bold text-stone-800">Plan Pareja</h4><p class="text-xs text-stone-500">Noche + Desayuno</p></div>
+                            <div class="font-bold text-[#2F5833]">$360.000</div>
+                        </div>
+                        <div onclick="selectPlan('Plan Deluxe', 470000)" class="option-card border border-stone-200 rounded-xl p-4 flex justify-between items-center shadow-sm">
+                            <div><h4 class="font-bold text-stone-800">Plan Deluxe</h4><p class="text-xs text-stone-500">Noche + Cena + Desayuno</p></div>
+                            <div class="font-bold text-[#2F5833]">$470.000</div>
+                        </div>
+                        <div onclick="selectPlan('Plan Luxury', 570000)" class="option-card border border-stone-200 rounded-xl p-4 flex justify-between items-center shadow-sm">
+                            <div><h4 class="font-bold text-stone-800">Plan Luxury</h4><p class="text-xs text-stone-500">Jacuzzi Privado + Cena + Desayuno</p></div>
+                            <div class="font-bold text-[#2F5833]">$570.000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step-4" class="wizard-step">
+                    <button onclick="goToStep(3)" class="text-stone-500 text-sm hover:text-[#2F5833] mb-4 flex items-center gap-2"><i class="fas fa-arrow-left"></i> Cambiar Plan</button>
+                    <h3 class="text-2xl font-semibold text-stone-700 mb-6 text-center">Revisa y Envía</h3>
+                    
+                    <div class="bg-stone-50 p-6 rounded-xl mb-6 border border-stone-200">
+                        <div class="flex justify-between mb-2 text-sm">
+                            <span class="text-stone-500"><i class="far fa-calendar-alt w-5"></i> Día:</span>
+                            <span id="sum-date" class="font-semibold text-stone-800">-</span>
+                        </div>
+                        <div class="flex justify-between mb-2 text-sm">
+                            <span class="text-stone-500"><i class="far fa-clock w-5"></i> Hora:</span>
+                            <span id="sum-time" class="font-semibold text-stone-800">-</span>
+                        </div>
+                        <div class="flex justify-between mb-4 pb-4 border-b border-stone-200 text-sm">
+                            <span class="text-stone-500"><i class="fas fa-home w-5"></i> Plan:</span>
+                            <span id="sum-plan" class="font-semibold text-stone-800">-</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-stone-800 font-bold text-lg">Total a Pagar:</span>
+                            <span id="sum-total" class="text-2xl font-bold text-[#2F5833]">$0</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block text-sm font-semibold text-stone-700 mb-3">Selecciona cómo deseas pagar</label>
+                        <select id="payment-method" class="w-full border border-stone-300 rounded-xl p-4 text-stone-700 focus:outline-none focus:border-[#2F5833] bg-white" onchange="updatePayment()">
+                            <option value="Transferencia Bancolombia">Transferencia Bancolombia</option>
+                            <option value="Nequi / Daviplata">Nequi / Daviplata</option>
+                            <option value="Efectivo (Con abono previo)">Efectivo (Requiere Abono 50%)</option>
+                        </select>
+                    </div>
+
+                    <button onclick="sendToWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white px-6 py-4 rounded-xl font-bold shadow-lg shadow-green-200 transition flex items-center justify-center gap-3 text-lg">
+                        <i class="fab fa-whatsapp text-2xl"></i> Finalizar Reserva en WhatsApp
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-stone-900 text-stone-300 flex flex-col justify-center snap-start py-12 lg:py-10">
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12">
+            <div>
+                <h4 class="text-white font-bold text-xl mb-6 italic">Reservas de Catedral</h4>
+                <p class="text-sm leading-relaxed">Un espacio pensado para brindar una estadía placentera, un refugio que invita a la desconexión total.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-6 uppercase text-xs tracking-widest">Atención y Contacto</h4>
+                <p class="text-sm mb-2"><i class="far fa-clock mr-2"></i> Lunes a Domingo: 7:00 AM - 7:00 PM</p>
+                <p class="text-sm"><i class="fab fa-whatsapp mr-2"></i> +57 300 1964796</p>
+            </div>
+            <div>
+                </div>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 mt-16 pt-8 border-t border-stone-800 text-center text-xs">
+            <p>© 2026 Glamping Reservas de Catedral. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+    
+    <script>
+        const NUMERO_WHATSAPP = "573027809730"; 
+        
+        let reservation = {
+            date: '',
+            time: '',
+            planName: '',
+            price: 0,
+            payment: 'Transferencia Bancolombia'
+        };
+
+        flatpickr("#calendar-input", {
+            inline: true,
+            minDate: "today",
+            locale: "es",
+            dateFormat: "l, j \\de F, Y", 
+            onChange: function(selectedDates, dateStr, instance) {
+                reservation.date = dateStr;
+                goToStep(2); 
+            }
+        });
+
+        function selectTime(timeStr) {
+            reservation.time = timeStr;
+            goToStep(3); 
+        }
+
+        function selectPlan(name, price) {
+            reservation.planName = name;
+            reservation.price = price;
+            updateSummaryUI();
+            goToStep(4); 
+        }
+
+        function updatePayment() {
+            reservation.payment = document.getElementById('payment-method').value;
+        }
+
+        function updateSummaryUI() {
+            document.getElementById('sum-date').innerText = reservation.date;
+            document.getElementById('sum-time').innerText = reservation.time;
+            document.getElementById('sum-plan').innerText = reservation.planName;
+            document.getElementById('sum-total').innerText = "$" + reservation.price.toLocaleString('es-CO');
+        }
+
+        function goToStep(stepNumber) {
+            document.querySelectorAll('.wizard-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step-' + stepNumber).classList.add('active');
+
+            for(let i=1; i<=4; i++) {
+                const ind = document.getElementById('ind-' + i);
+                const iconDiv = ind.children[0];
+                const textDiv = ind.children[1];
+
+                if(i === stepNumber) {
+                    ind.classList.remove('opacity-40');
+                    iconDiv.className = "text-[#2F5833] font-bold mb-1 transform scale-110 transition";
+                    textDiv.className = "text-[10px] md:text-xs uppercase tracking-wide font-bold text-[#2F5833]";
+                } else if (i < stepNumber) {
+                    ind.classList.remove('opacity-40');
+                    iconDiv.className = "text-[#4A6B46] mb-1";
+                    textDiv.className = "text-[10px] md:text-xs uppercase tracking-wide font-semibold text-[#4A6B46]";
+                } else {
+                    ind.classList.add('opacity-40');
+                    iconDiv.className = "text-stone-500 mb-1";
+                    textDiv.className = "text-[10px] md:text-xs uppercase tracking-wide font-semibold text-stone-500";
+                }
+            }
+        }
+
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', String(isHidden));
+                mobileMenuButton.innerHTML = isHidden
+                    ? '<i class="fas fa-times text-lg"></i>'
+                    : '<i class="fas fa-bars text-lg"></i>';
+            });
+
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    mobileMenuButton.innerHTML = '<i class="fas fa-bars text-lg"></i>';
+                });
+            });
+        }
+
+        function sendToWhatsApp() {
+            updatePayment(); 
+            
+            let text = `*¡Hola Glamping Reservas de Catedral!* ⛺%0A`;
+            text += `Ya tengo listos los datos para mi reserva, me gustaría confirmar disponibilidad:%0A%0A`;
+            text += `📅 *Fecha:* ${reservation.date}%0A`;
+            text += `⏰ *Hora llegada:* ${reservation.time}%0A`;
+            text += `✨ *Plan:* ${reservation.planName}%0A`;
+            text += `💰 *Total a pagar:* $${reservation.price.toLocaleString('es-CO')} COP%0A`;
+            text += `💳 *Método de pago:* ${reservation.payment}%0A%0A`;
+            text += `¡Quedo atento(a)!`;
+
+            window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${text}`, '_blank');
+        }
+    </script>
+
+</body>
+</html>
